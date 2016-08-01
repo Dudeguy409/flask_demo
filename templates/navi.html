@@ -1,0 +1,45 @@
+    <div class="navbar-wrapper">
+      <div class="container">
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="{{url_for('home_page')}}">The Ultimate PokeDex</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+
+              <ul class="nav navbar-nav">
+                <li class="{{ trainersActive }}"><a href="{{url_for('trainer_list_page')}}">Trainers</a></li>
+                <li class="{{ PokemonActive }}"><a href="{{url_for('pokemon_list_page')}}">Pokemon</a></li>
+                <li class=""><a href="{{url_for('reset_DB')}}">Reset DB</a></li>
+                <li class=""><a href="{{url_for('print_DB')}}">Print DB</a></li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                {% if trainerID is defined and displayName is defined %}
+                <li><a href="{{url_for('my_profile_page')}}">{{displayName}}</a></li>
+                <li><a href="{{logout}}" class="btn btn-danger">Log Out</a></li>
+                {% else %}
+                <li>
+                  <form class="navbar-form" action="{{login}}" method="POST">
+                    {% if not register %}
+                    <a href="{{url_for('register_page')}}" class="btn btn-info">Register</a>
+                    {% endif %}
+                    <div class="form-group">
+                      <input type="text" name="email" placeholder="Email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <input type="password" name="password" placeholder="Password" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-success">Sign in</button>
+                  </form>
+                </li>
+                {% endif %}
+              </ul>
+
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </div>

@@ -1,0 +1,277 @@
+INFO:werkzeug: * Running on https://0.0.0.0:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger pin code: 243-899-754
+INFO:werkzeug: * Running on https://0.0.0.0:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger pin code: 243-899-754
+INFO:werkzeug: * Running on https://0.0.0.0:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger pin code: 243-899-754
+INFO:werkzeug: * Detected change in '/Users/andrew.davidson/PycharmProjects/flask_demo/app.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger pin code: 243-899-754
+INFO:werkzeug: * Running on https://0.0.0.0:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger pin code: 243-899-754
+INFO:werkzeug: * Running on https://0.0.0.0:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger pin code: 243-899-754
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:38:24] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:38:24] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:38:24] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:38:24] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:38:24] "GET /static/poke_carousel_1.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:38:24] "GET /static/poke_carousel_2.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:38:24] "GET /static/poke_carousel_3.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:38:24] "GET /static/favicon.ico HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:38:37] "POST /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:38:37] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:38:37] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:38:37] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:40:23] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:40:23] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:40:23] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:40:23] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:40:44] "POST /index/login HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:40:44] "GET /index/login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:40:44] "GET /index/login?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:40:44] "GET /index/login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:40:44] "GET /index/login?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:40:44] "GET /index/login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:40:45] "GET /index/login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/andrew.davidson/PycharmProjects/flask_demo/app.py', reloading
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:41:39] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:41:39] "GET / HTTP/1.1" 200 -
+INFO:root:<class 'ClientException.ClientException'>improperly formatted email address
+INFO:root:None
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 10:41:48] "POST /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:10] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:10] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:10] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:10] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:10] "GET /static/poke_carousel_1.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:10] "GET /static/poke_carousel_2.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:10] "GET /static/poke_carousel_3.jpg HTTP/1.1" 200 -
+WARNING:root:improperly formatted email address:127.0.0.1
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:21] "POST /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:21] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:21] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:21] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+WARNING:root:No password was given:127.0.0.1
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:34] "POST /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:34] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:34] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:34] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+WARNING:root:Incorrect Password:127.0.0.1
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:49] "POST /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:49] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:49] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:23:49] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/andrew.davidson/PycharmProjects/flask_demo/RedisDBFacade.py', reloading
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:25:25] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:25:25] "GET /static/poke_carousel_1.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:25:25] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:25:25] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:25:25] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:25:25] "GET /static/poke_carousel_2.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:25:25] "GET /static/poke_carousel_3.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:25:53] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:25:53] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:25:53] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:25:53] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+WARNING:root:improperly formatted email address:127.0.0.1
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:10] "POST /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:10] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:10] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:10] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+WARNING:root:No account exists with the supplied email:127.0.0.1
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:18] "POST /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:18] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:18] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:18] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:29] "GET /register HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:29] "GET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:29] "GET /register?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:29] "GET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:29] "GET /register?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:29] "GET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:26:29] "GET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/andrew.davidson/PycharmProjects/flask_demo/app.py', reloading
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:34] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:34] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:34] "GET /static/poke_carousel_3.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:34] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:34] "GET /static/poke_carousel_2.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:34] "GET /static/poke_carousel_1.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:34] "GET /static/style.css HTTP/1.1" 200 -
+WARNING:root:No account exists with the supplied email:127.0.0.1
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:53] "POST /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:53] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:53] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:53] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:56] "GET /register HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:56] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:56] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:30:56] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:31:20] "POST /register HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:31:20] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:31:20] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:31:20] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+CRITICAL:root:<type 'exceptions.AttributeError'>DatabaseFacade instance has no attribute 'db'
+CRITICAL:root:None
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:31:42] "POST /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:31:42] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:31:42] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:31:42] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/andrew.davidson/PycharmProjects/flask_demo/RedisDBFacade.py', reloading
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:18] "GET / HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:18] "GET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:18] "GET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:18] "GET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:18] "GET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:18] "GET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:18] "GET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:39] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:39] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:39] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:39] "GET /static/poke_carousel_2.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:39] "GET /static/poke_carousel_3.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:39] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:39] "GET /static/poke_carousel_1.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:43] "GET /reset HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:43] "GET /reset?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:43] "GET /reset?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:43] "GET /reset?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:43] "GET /reset?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:43] "GET /reset?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:44:43] "GET /reset?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/andrew.davidson/PycharmProjects/flask_demo/app.py', reloading
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:48:59] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:00] "GET /static/poke_carousel_2.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:00] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:00] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:00] "GET /static/poke_carousel_3.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:00] "GET /static/poke_carousel_1.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:00] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:03] "GET /print HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:07] "GET /reset HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:09] "GET /print HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:12] "GET /print HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:14] "GET /print HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:19] "GET /register HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:45] "POST /register HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:49:53] "POST /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:50:41] "GET /profile.html HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:50:41] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:50:41] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:50:41] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:50:52] "GET /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:50:52] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:50:52] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:50:52] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:51:26] "GET /profile.html HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:51:26] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:51:26] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:51:26] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:53:45] "GET /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:53:45] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:53:45] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:53:45] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:53:50] "GET /index/logout HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:53:50] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:53:50] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 14:53:50] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:02:05] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:02:05] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:02:05] "GET /static/poke_carousel_2.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:02:05] "GET /static/poke_carousel_1.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:02:05] "GET /static/poke_carousel_3.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:02:05] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:02:05] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:02:10] "GET /register HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:05:28] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:05:28] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:05:28] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:05:28] "GET /static/poke_carousel_2.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:05:28] "GET /static/poke_carousel_1.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:05:28] "GET /static/poke_carousel_3.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:05:28] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:05:51] "POST /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:05:51] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:05:51] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:05:51] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:06:53] "GET /trainers.html HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:06:53] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:06:53] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:06:53] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:00] "GET /trainers.html HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:49] "GET /register HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:49] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:49] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:49] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:56] "GET /profile.html HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:56] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:56] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:56] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:59] "GET /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:59] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:59] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:07:59] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+WARNING:root:The supplied cookied did not have a mapping to a date and/or trainerID.  It appears to not be in the database.  It may have expired and been deleted.:127.0.0.1
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:08:07] "GET /reset HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:08:07] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:08:07] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:08:07] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:08:16] "GET /print HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:08:16] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:08:16] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:08:16] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:27:37] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:27:37] "GET /static/poke_carousel_3.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:27:37] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:27:37] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:27:37] "GET /static/poke_carousel_1.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:27:37] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jul/2016 17:27:37] "GET /static/poke_carousel_2.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:18:59] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:18:59] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:18:59] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:18:59] "GET /static/poke_carousel_1.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:18:59] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:18:59] "GET /static/poke_carousel_2.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:18:59] "GET /static/poke_carousel_3.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:19:01] "GET /register HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:19:01] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:19:01] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:19:01] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:19:33] "GET /register?name=poop&email=davidsac%40rose-hulman.edu&password=foo HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:19:33] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:19:33] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:19:33] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:22:49] "GET /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:22:49] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:22:49] "GET /static/poke_carousel_1.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:22:49] "GET /static/poke_carousel_2.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:22:49] "GET /static/poke_carousel_3.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:23:06] "GET /register HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:23:06] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:23:06] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:23:06] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:23:26] "GET /register?name=Andy&email=a%40b.cn&password=foo HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:23:26] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:23:26] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:23:26] "GET /static/bootstrap.min.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:31:18] "GET /index/login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:31:18] "GET /static/poke_carousel_1.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:31:18] "GET /static/bootstrap.min.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:31:18] "GET /static/poke_carousel_2.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:31:18] "GET /static/poke_carousel_3.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:31:20] "GET /register HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Aug/2016 10:31:39] "POST /register HTTP/1.1" 200 -
