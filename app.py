@@ -50,7 +50,7 @@ def register_page():
             resp.set_cookie('email', email)
             return resp
         except ClientException as e:
-            msg = e[1]
+            msg = str(e)
         except:
             logging.critical(str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             logging.critical(traceback.print_exc())
@@ -79,7 +79,7 @@ def register_page_submit():
         msg = "Congratulations!  You have been successfully registered!  Now you need to log in."
         return render_template('index.html', pokemonActive=INACTIVE, trainersActive=INACTIVE, msg = msg, login = url_for("home_page_auth"))
     except ClientException as e:
-        msg = e[1]
+        msg = str(e)
     except:
         logging.critical(str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
         logging.critical(traceback.print_exc())
@@ -99,6 +99,7 @@ def print_DB():
     db.printDB()
     return handleGet(request, 'index.html', url_for("home_page_auth"), url_for("home_page_logout"), INACTIVE, INACTIVE)
 
+#TODO send popup when successful
 @app.route('/reset', methods=['GET'])
 def reset_DB():
     db.clearDatabase()
@@ -206,7 +207,7 @@ def handleLogout(request, templateToRender, loginUrl, pokemonActive, trainersAct
             db.deleteCookie(trainerID, cookie, date)
             msg = "You have been successfully logged out."
         except ClientException as e:
-            msg = e[1]
+            msg = str(e)
         except:
             logging.critical(str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             logging.critical(traceback.print_exc())
