@@ -3,11 +3,11 @@ import random
 import redis
 import datetime
 from ClientException import ClientException
+import hashlib
 
 class DatabaseFacade:
 
-#TODO log ips of failed logins or cookies
-#TODO add log stmts, pipes, return stmts
+#TODO add pipes return stmts to any new code
     def __init__(self):
         self.redisDB = redis.StrictRedis(host='localhost', port=6379)
         return
@@ -47,6 +47,13 @@ class DatabaseFacade:
 
     #====== AUTHENTICATION METHODS ======#
 
+    def generateRehashedPassword(self, email, givenPassword):
+        rehashedPassword = givenPassword + email
+        for i in range(0,500):
+            rehashedPassword =  hashlib.sha512(rehashedPassword + givenPassword + email).hexdigest()
+        return rehashedPassword
+
+
     # Takes in a cookie (256-digit string) and an email address (any type).
     # Returns a tuple containing the trainerID (string) and date (string) of the given cookie, or throws an exception
     def validateCookie(self, cookieToCheck, emailToCheck):
@@ -70,7 +77,9 @@ class DatabaseFacade:
         if trainerID is None:
             raise ClientException("No account exists with the supplied email")
         expectedPassword = self.redisDB.get("Trainer:"+trainerID+":password")
-        if givenPassword != expectedPassword:
+
+        rehashedPassword = self.generateRehashedPassword(trainerEmail,givenPassword)
+        if rehashedPassword != expectedPassword:
             raise ClientException("Incorrect Password")
         return trainerID
 
@@ -134,20 +143,22 @@ class DatabaseFacade:
 
 
     #TODO add to general list of trainers, or any other lists
-    def registerTrainer(self, displayName, email, encryptedPassword):
+    def registerTrainer(self, displayName, email, hashedPassword):
         existingID = self.redisDB.get("Email:"+email+":TrainerID")
         if existingID is not None:
             raise ClientException("This email is already associated with an account.  Please pick a different EMail address.")
         trainerID = self.popNextTrainerID()
+        rehashedPassword = self.generateRehashedPassword(email, hashedPassword)
         pipe = self.redisDB.pipeline()
         pipe.set("Email:"+email+":TrainerID", trainerID)
-        pipe.set("Trainer:"+trainerID+":password", encryptedPassword)
+        pipe.set("Trainer:"+trainerID+":password", rehashedPassword)
         pipe.set("Trainer:"+trainerID+":email", email)
         pipe.set("Trainer:"+trainerID+":displayName", displayName)
         pipe.execute()
         return
 
-    #TODO add to any relevant pokemon lists, like general list, species lists, move lists, or cp lists
+    #TODO create move lists, or cp lists
+    #TODO add to any relevant pokemon lists, like general list, species lists,
     def addPokemonToTrainer(self, trainerID, nickname, species, cp):
         pokemonID = self.popNextPokemonID()
         pipe = self.redisDB.pipeline()
@@ -156,6 +167,7 @@ class DatabaseFacade:
         pipe.set("Pokemon:"+pokemonID+":cp", cp)
         pipe.set("Pokemon:"+pokemonID+":trainerID", trainerID)
         pipe.sadd("Trainer:"+trainerID+":Pokemon", pokemonID)
+        
         pipe.execute()
         return pokemonID
 

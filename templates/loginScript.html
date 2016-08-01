@@ -1,0 +1,40 @@
+{% if trainerID is not defined and displayName is not defined %}
+<script>
+  function processLoginForm(e) {
+    if (e.preventDefault){
+      e.preventDefault();
+    }
+    var email = document.getElementById("login-email").value;
+    var password = document.getElementById("login-password").value;
+
+    if(!checkEmailFormat(email)){
+      return false;
+    }
+
+    if(!password){
+      alert("A password is required");
+      return false;
+    }
+
+    if(!checkPasswordFormat(password)){
+      return false;
+    }
+
+    hashedPass = hashPassword(email,password)
+
+    document.getElementById("login-password").value = hashedPass;
+
+    document.getElementById("login-form").submit();
+
+    // You must return false to prevent the default form behavior
+    return false;
+}
+
+var form = document.getElementById('login-form');
+if (form.attachEvent) {
+    form.attachEvent("submit", processLoginForm);
+} else {
+    form.addEventListener("submit", processLoginForm);
+}
+</script>
+{% endif %}

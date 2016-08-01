@@ -1,102 +1,19 @@
 {% extends "base.html" %}
 {% block title_prefix %}Create an Account - {% endblock %}
 {% block mainbody %}
-                  <form role="form"  id="registerForm" action="{{url_for('register_page_submit')}}" method="POST">
+                  <form role="form"  id="register-form" action="{{url_for('register_page_submit')}}" method="POST">
                     <div class="form-group">
-                      <input type="text" id="name" name="name" placeholder="Display Name" class="form-control">
+                      <input type="text" id="register-name" name="name" placeholder="Display Name" class="form-control">
                     </div>
                     <div class="form-group">
-                      <input type="text" id="email" name="email" placeholder="Email" class="form-control">
+                      <input type="text" id="register-email" name="email" placeholder="Email" class="form-control">
                     </div>
                     <div class="form-group">
-                      <input type="password" id="password" name="password" placeholder="Password" class="form-control">
+                      <input type="password" id="register-password" name="password" placeholder="Password" class="form-control">
                     </div>
                     <div class="form-group">
-                      <input type="password" id="confirm-password" placeholder="Confirm Password" class="form-control">
+                      <input type="password" id="register-confirm-password" placeholder="Confirm Password" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-primary">Register</button>
                   </form>
-
-<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha512.js"></script>
-<script>
-  function processForm(e) {
-    if (e.preventDefault){
-      e.preventDefault();
-    }
-    var email = document.getElementById("email").value;
-    var password = document.getElementById("password").value;
-    var displayName = document.getElementById("name").value;
-    var confirmPassword = document.getElementById("confirm-password").value;
-
-    var re = /^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]{2,63}$/;
-    if(!re.test(email)){
-      alert("Please enter an email with a validly formatted email address.");
-      return false;
-    }
-
-    if(!displayName){
-      alert("Name is a required field");
-      return false;
-    }
-
-    if(!password){
-      alert("A password is required");
-      return false;
-    }
-    if(!confirmPassword){
-      alert("Please reenter your password in the confirm password field.");
-      return false;
-    }
-    if(confirmPassword!=password){
-      alert("the two passwords that you entered do not match.");
-      return false;
-    }
-
-    if(password.length<8){
-      alert("your password must be at least 8 characters.");
-      return false;
-    }
-    var rePass = /^\w+$/
-    var reChar = /^\w*[a-zA-Z]+\w*$/;
-    var reNum = /^\w*\d+\w*$/;
-    if(!rePass.test(password)){
-      alert("Your password must only contain letters, numbers, or underscores.");
-      return false;
-    }
-
-    if(!reChar.test(password)){
-      alert("Your password must contain at least one letter");
-      return false;
-    }
-
-    if(!reNum.test(password)){
-      alert("Your password must contain at least one number");
-      return false;
-    }
-
-    var hashedPass= password+email;
-    for (var i = 0; i < 5000; i++) {
-      hashedPass = CryptoJS.SHA512(hash + password + email);
-    }
-
-    document.getElementById("password").value = hashedPass;
-    alert(hashedPass);
-
-    document.getElementById("registerForm").submit();
-    //action="{{url_for('register_page_submit')}}" method="POST"
-
-
-
-    // You must return false to prevent the default form behavior
-    return false;
-}
-
-var form = document.getElementById('registerForm');
-if (form.attachEvent) {
-    form.attachEvent("submit", processForm);
-} else {
-    form.addEventListener("submit", processForm);
-}
-
-</script>
 {% endblock %}

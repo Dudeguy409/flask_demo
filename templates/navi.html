@@ -21,15 +21,15 @@
                 <li><a href="{{logout}}" class="btn btn-danger">Log Out</a></li>
                 {% else %}
                 <li>
-                  <form class="navbar-form" action="{{login}}" method="POST">
+                  <form class="navbar-form" id="login-form" action="{{login}}" method="POST">
                     {% if not register %}
                     <a href="{{url_for('register_page')}}" class="btn btn-info">Register</a>
                     {% endif %}
                     <div class="form-group">
-                      <input type="text" name="email" placeholder="Email" class="form-control">
+                      <input type="text" id="login-email" name="email" placeholder="Email" class="form-control">
                     </div>
                     <div class="form-group">
-                      <input type="password" name="password" placeholder="Password" class="form-control">
+                      <input type="password" id="login-password" name="password" placeholder="Password" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-success">Sign in</button>
                   </form>

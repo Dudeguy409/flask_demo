@@ -7,8 +7,7 @@ import traceback
 from ClientException import ClientException
 import logging
 
-# TODO encrypt passwords and check fields using js client-side
-# TODO if not authed, send a salt for password?
+#TODO add log stmts to any new exceptions
 app = Flask(__name__)
 ACTIVE = "Active"
 INACTIVE = ""
@@ -66,7 +65,7 @@ def register_page():
 @app.route('/register', methods=['POST'])
 def register_page_submit():
     #TODO put in a not a robot box and maybe generate a temp session id
-    #TODO have more strict name or password checks?
+    #TODO have more strict name or password checks?  could a rogue client break my password hasher?
     msg = None
     try:
         name = request.form['name']
@@ -91,7 +90,6 @@ def register_page_submit():
 @app.route('/home/logout', methods=['GET'])
 @app.route('/index/logout', methods=['GET'])
 def home_page_logout():
-    # TODO if not authed, send a salt for password?
     return handleLogout(request, 'index.html', url_for("home_page_auth"), INACTIVE, INACTIVE)
 
 @app.route('/print', methods=['GET'])
@@ -104,8 +102,6 @@ def print_DB():
 def reset_DB():
     db.clearDatabase()
     return handleGet(request, 'index.html', url_for("home_page_auth"), url_for("home_page_logout"), INACTIVE, INACTIVE)
-
-
 
 #below code does not have potential issues documented
 @app.route('/trainers', methods=['GET'])
@@ -130,9 +126,6 @@ def trainer_profile_page(trainerID):
 @app.route('/pokemon/<pokemonID>', methods=['GET'])
 def pokemon_profile_page(pokemonID):
     return render_template('pokemon_profile.html', pokemonID = pokemonID, pokemonActive=INACTIVE, trainersActive=INACTIVE)
-
-
-
 
 def handleLogin(templateToRender, login, logout, pokemonActive, trainersActive):
     msg = None
