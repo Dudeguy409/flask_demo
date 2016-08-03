@@ -9,16 +9,23 @@
             <div id="navbar" class="navbar-collapse collapse">
 
               <ul class="nav navbar-nav">
-                <li class="{{ trainersActive }}"><a href="{{url_for('trainer_list_page')}}">Trainers</a></li>
-                <li class="{{ PokemonActive }}"><a href="{{url_for('pokemon_list_page')}}">Pokemon</a></li>
-                <li class=""><a href="{{url_for('reset_DB')}}">Reset DB</a></li>
-                <li class=""><a href="{{url_for('print_DB')}}">Print DB</a></li>
+                <li class="{% if trainersActive %}Active{% endif %}"><a href="{{url_for('trainer_list_page')}}">Trainers</a></li>
+                <li class="{% if pokemonActive %}Active{% endif %}"><a href="{{url_for('pokemon_list_page')}}">Pokemon</a></li>
               </ul>
-
+              <ul class="nav navbar-nav">
+                <form class=" navbar-form">
+                  <li style="float:left;"><a href="{{url_for('reset_DB')}}" class="btn btn-danger">Reset DB</a></li>
+                  <li style="float:left;"><a href="{{url_for('print_DB')}}" class="btn btn-info">Print DB</a></li>
+                </form>
+              </ul>
               <ul class="nav navbar-nav navbar-right">
-                {% if trainerID is defined and displayName is defined %}
-                <li><a href="{{url_for('my_profile_page')}}">{{displayName}}</a></li>
-                <li><a href="{{logout}}" class="btn btn-danger">Log Out</a></li>
+                {% if authID is defined and authName is defined %}
+                <li><a href="{{url_for('trainer_profile_page', trainerProfileID=authID)}}">{{authName}}</a></li>
+                <li>
+                  <form class="navbar-form">
+                    <a href="{{logout}}" class="btn btn-danger">Log Out</a>
+                  </form>
+                </li>
                 {% else %}
                 <li>
                   <form class="navbar-form" id="login-form" action="{{login}}" method="POST">

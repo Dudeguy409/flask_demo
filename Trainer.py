@@ -1,12 +1,11 @@
 class Trainer:
 
-    def __init__(self, trainerEmail, displayName, pokeList = []):
-        self.trainerEmail = trainerEmail
+    def __init__(self, trainerID, displayName):
+        self.trainerID = trainerID
         self.displayName = displayName
-        self.pokeList = pokeList
 
     def __str__(self):
-        return 'Trainer - Email: ' + self.trainerEmail + "\tdisplayName: "+self.displayName+"\tPokemon: "+ self.pokeList.__str__()
+        return "Trainer - ID: "+self.trainerID+", Name: "+self.displayName+";"
 
-    def repr(self):
-        self.__str__()
+    def __repr__(self):
+        return str(self)

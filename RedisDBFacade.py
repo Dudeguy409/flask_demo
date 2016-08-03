@@ -4,10 +4,13 @@ import redis
 import datetime
 from ClientException import ClientException
 import hashlib
+from Trainer import Trainer
+from Pokemon import Pokemon
 
 class DatabaseFacade:
 
-#TODO add pipes return stmts to any new code
+#TODO fix enum species
+#TODO add pipes AND return stmts to any new code
     def __init__(self):
         self.redisDB = redis.StrictRedis(host='localhost', port=6379)
         return
@@ -141,89 +144,151 @@ class DatabaseFacade:
 
     #====== ADD ITEM METHODS ======#
 
-
-    #TODO add to general list of trainers, or any other lists
     def registerTrainer(self, displayName, email, hashedPassword):
         existingID = self.redisDB.get("Email:"+email+":TrainerID")
         if existingID is not None:
             raise ClientException("This email is already associated with an account.  Please pick a different EMail address.")
         trainerID = self.popNextTrainerID()
         rehashedPassword = self.generateRehashedPassword(email, hashedPassword)
+
         pipe = self.redisDB.pipeline()
+
         pipe.set("Email:"+email+":TrainerID", trainerID)
         pipe.set("Trainer:"+trainerID+":password", rehashedPassword)
         pipe.set("Trainer:"+trainerID+":email", email)
         pipe.set("Trainer:"+trainerID+":displayName", displayName)
+        pipe.sadd("Trainers", trainerID)
+
         pipe.execute()
-        return
+        return trainerID
 
     #TODO create move lists, or cp lists
-    #TODO add to any relevant pokemon lists, like general list, species lists,
     def addPokemonToTrainer(self, trainerID, nickname, species, cp):
         pokemonID = self.popNextPokemonID()
+
         pipe = self.redisDB.pipeline()
+
         pipe.set("Pokemon:"+pokemonID+":nickname", nickname)
         pipe.set("Pokemon:"+pokemonID+":species", species)
         pipe.set("Pokemon:"+pokemonID+":cp", cp)
         pipe.set("Pokemon:"+pokemonID+":trainerID", trainerID)
         pipe.sadd("Trainer:"+trainerID+":Pokemon", pokemonID)
+        pipe.zadd("Pokemon-By-CP",cp,pokemonID)
+        pipe.zadd("Species:"+species+":Pokemon", cp, pokemonID)
         
-        pipe.execute()
-        return pokemonID
-
-    #====== SCAN, QUERY, and GET METHODS ======#
-
-    #TODO implement.  will need to add global pokeset.  try to use scan
-    def getAllPokemon(self):
-        pass
-
-
-    #TODO implement.  Need to create a global trainers table
-    def getAllTrainers(self):
-        pass
-
-    #TODO fix format of response and check what happens if pokemon doesn't exist
-    def getPokemonForTrainer(self, trainerID):
-        pokemonToRetreive = self.redisDB.smembers("Trainer:"+trainerID+":Pokemon")
-
-        pipe = self.redisDB.pipeline()
-        for pokemonID in pokemonToRetreive:
-            pipe.get("Pokemon:" + pokemonID + ":nickname")
-            pipe.get("Pokemon:"+pokemonID+":species")
-            pipe.get("Pokemon:"+pokemonID+":cp")
-        rslts = pipe.execute()
-        print(rslts)
-
-
-
-    #TODO check that this works
-    def getSpecificPokemon(self, trainerEmail, pokemonID):
-        pass
-
-    #====== TRADE METHODS ======#
-
-    # TODO unimportant
-    def movePokemonFromTo(self, pokemonID, trainerEmail1, trainerEmail2):
-        pass
-
-    # TODO unimportant
-    def tradePokemon(self, pokemonID1, pokemonID2):
-        pass
-
-    #====== DELETE ITEM METHODS ======#
-
-    #TODO be sure to remove from any pokelists
-    def removePokemonFromTrainer(self, pokemonID, trainerID):
-        pipe = self.redisDB.pipeline()
-        pipe.set("Pokemon:" + pokemonID + ":nickname")
-        pipe.set("Pokemon:" + pokemonID + ":species")
-        pipe.set("Pokemon:" + pokemonID + ":cp")
-        pipe.set("Pokemon:" + pokemonID + ":trainerID")
-        pipe.srem("Trainer:" + trainerID + ":Pokemon", pokemonID)
         pipe.execute()
         return
 
-        # TODO be sure to delete from trainers list
+    #====== SCAN, QUERY, and GET METHODS ======#
+
+    def getGeneralPokemon(self, min=None, max=None, start=None, num=None):
+        if min is None:
+            min = "-inf"
+        if max is None:
+            max = "+inf"
+        if start is None:
+            start = 0
+        if num is None:
+            num = 100
+        ids = self.redisDB.zrangebyscore("Pokemon-By-CP", min, max, start, num)
+        return self.getPokemonFromIDs(ids)
+
+    def getSpeciesPokemon(self, species, min=None, max=None, start=None, num=None):
+        if min is None:
+            min = "-inf"
+        if max is None:
+            max = "+inf"
+        if start is None or num is None:
+            start = 0
+            num = 100
+        ids = self.redisDB.zrangebyscore("Species:"+species+":Pokemon", min, max, start, num)
+        return self.getPokemonFromIDs(ids)
+
+    def getAllTrainers(self):
+        trainerIDs = list(self.redisDB.smembers("Trainers"))
+        pipe = self.redisDB.pipeline()
+        for trainerID in trainerIDs:
+            pipe.get("Trainer:"+trainerID+":displayName")
+        trainerNames = pipe.execute()
+        trainers = []
+        for i in range(0,len(trainerIDs)):
+            trainers.append(Trainer(trainerIDs[i], trainerNames[i]))
+        return trainers
+
+    #TODO consider replacing with fuzzy search
+    def getTrainersByStrictNameMatch(self, name):
+        trainersToFilter= self.getAllTrainers()
+        trainersToReturn = []
+        for trainer in trainersToFilter:
+            if trainer.displayName==name:
+                trainersToReturn.append(trainer)
+        return trainersToReturn
+
+
+    #TODO check and check what happens if pokemon doesn't exist
+    def getPokemonForTrainer(self, trainerID):
+        pokemonToRetreive = list(self.redisDB.smembers("Trainer:"+trainerID+":Pokemon"))
+        trainerName = self.redisDB.get("Trainer:" + trainerID + ":displayName")
+        pipe = self.redisDB.pipeline()
+        for pokemonID in pokemonToRetreive:
+            pipe.get("Pokemon:" + pokemonID + ":nickname")
+            pipe.get("Pokemon:" + pokemonID + ":species")
+            pipe.get("Pokemon:" + pokemonID + ":cp")
+        rslts = pipe.execute()
+        pokemonToParse = [rslts[x:x + 3] for x in range(0, len(rslts), 3)]
+        pokemonToReturn = []
+        for i in range(0, len(pokemonToParse)):
+            pokemon = pokemonToParse[i]
+            pokemonID = pokemonToRetreive[i]
+            name = pokemon[0]
+            species = pokemon[1]
+            cp = pokemon[2]
+            pokemonToReturn.append(Pokemon(pokemonID, name, species, cp, trainerID, trainerName))
+        return pokemonToReturn
+
+    def getPokemonFromIDs(self, pokemonToRetreive):
+        if not isinstance(pokemonToRetreive, list):
+            pokemonToRetreive = list(pokemonToRetreive)
+        pipe = self.redisDB.pipeline()
+        for pokemonID in pokemonToRetreive:
+            pipe.get("Pokemon:" + pokemonID + ":nickname")
+            pipe.get("Pokemon:" + pokemonID + ":species")
+            pipe.get("Pokemon:" + pokemonID + ":cp")
+            pipe.get("Pokemon:" + pokemonID + ":trainerID")
+        rslts = pipe.execute()
+        pokemonToParse = [rslts[x:x + 4] for x in range(0, len(rslts), 4)]
+        trainerPipe = self.redisDB.pipeline()
+        for pokemon in pokemonToParse:
+            trainerID = pokemon[3]
+            trainerPipe.get("Trainer:" + trainerID + ":displayName")
+        trainerNames = trainerPipe.execute()
+        pokemonToReturn = []
+        for i in range(0,len(pokemonToParse)):
+            pokemon = pokemonToParse[i]
+            pokemonID = pokemonToRetreive[i]
+            name = pokemon[0]
+            species = pokemon[1]
+            cp = pokemon[2]
+            trainerID=pokemon[3]
+            trainerName = trainerNames[i]
+            pokemonToReturn.append(Pokemon(pokemonID, name, species, cp, trainerID, trainerName))
+        return pokemonToReturn.reverse()
+
+    #====== DELETE ITEM METHODS ======#
+
+    def deleteSpecificPokemon(self, pokemonID, trainerID):
+        species = self.redisDB.get("Pokemon:" + pokemonID + ":species")
+        pipe = self.redisDB.pipeline()
+        pipe.delete("Pokemon:" + pokemonID + ":nickname")
+        pipe.delete("Pokemon:" + pokemonID + ":species")
+        pipe.delete("Pokemon:" + pokemonID + ":cp")
+        pipe.delete("Pokemon:" + pokemonID + ":trainerID")
+        pipe.srem("Trainer:" + trainerID + ":Pokemon", pokemonID)
+        pipe.zrem("Pokemon-By-CP", pokemonID)
+        pipe.zrem("Species:"+species+":Pokemon",pokemonID)
+        pipe.execute()
+        return
+
     def removeTrainer(self, trainerID):
         self.deleteCookieForTrainerIfExists(trainerID)
         queryPipe = self.redisDB.pipeline()
@@ -240,13 +305,6 @@ class DatabaseFacade:
         pipe.delete("Trainer:" + trainerID + ":email")
         pipe.delete("Trainer:" + trainerID + ":displayName")
         pipe.delete("Trainer:" + trainerID + ":Pokemon")
+        pipe.srem("Trainers", trainerID)
         pipe.execute()
         return
-
-
-
-
-
-
-
-

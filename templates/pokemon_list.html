@@ -1,30 +1,40 @@
 {% extends "base.html" %}
 {% block title_prefix %}Pokemon Search - {% endblock %}
 {% block mainbody %}
-<div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Species</th>
-                  <th>Trainer</th>
-                  <th>CP</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Charm</td>
-                  <td>Charizard</td>
-                  <td>Andrew</td>
-                  <td>403</td>
-                </tr>
-                <tr>
-                  <td>Charm</td>
-                  <td>Charizard</td>
-                  <td>Andrew</td>
-                  <td>403</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+<div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+<div class="table-responsive container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nickname</th>
+        <th>Species</th>
+        <th>Trainer</th>
+        <th>CP</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for poke in pokemon %}
+      <tr>
+        <td>{{poke.name}}</td>
+        <td>{{poke.species}}</td>
+        <td><a href="{{url_for('trainer_profile_page', trainerProfileID=poke.trainerID)}}">{{poke.trainerName}}</a></td>
+        <td>{{poke.combatPower}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div></div>
+<script>
+var btn = document.getElementById('trainerName-search-button');
+btn.addEventListener("click", function() {
+  var trainerName= document.getElementById("trainer-search-name").value;
+  var newUrl = "{{url_for('trainer_list_page')}}"+"?trainerName='"+trainerName+"';";
+  window.location.replace(newUrl);
+});
+</script>
 {% endblock %}
