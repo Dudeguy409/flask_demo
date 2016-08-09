@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% block title_prefix %}Trainer Search - {% endblock %}
 {% block mainbody %}
-<div class="container">
-  <form role="form"  id="trainer-search-form">
-    <button type="submit" class="glyphicon glyphicons-search" id="trainerName-search-button"></button>
-    <div class="form-group">
-      <input type="text" id="trainer-search-name" name="trainer-search-name" placeholder="Name to search for" class="form-control">
-    </div>
-  </form>
+<div class="container-fluid">
+<div class="input-group container-fluid">
+  <span class="input-group-btn">
+    <button class="btn btn-info" id="trainerName-search-button"><span class="glyphicon glyphicons-search"></span>Search</button>
+  </span>
+  <div class="container-fluid col-xs-4">
+    <input type="text" id="trainer-search-name" name="trainer-search-name" placeholder="Name to search for" class="form-control">
+  </div>
 </div>
-<div class="table-responsive container">
+<div class="table-responsive container-fluid">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -24,6 +25,7 @@
       {% endfor %}
       </tbody>
     </table>
+</div>
 </div>
 <script>
 var btn = document.getElementById('trainerName-search-button');

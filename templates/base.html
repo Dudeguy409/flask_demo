@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title_prefix %}{% endblock %}{% block title %}The Ultimate PokeDex{% endblock %}</title>
     <link href="{{url_for('static', filename="style.css")}}" rel="stylesheet">
-    <link href="{{url_for('static', filename="bootstrap.min.css")}}" rel="stylesheet">
+    <link href="{{url_for('static', filename="css/bootstrap.min.css")}}" rel="stylesheet">
     <link href="{{url_for('static', filename="favicon.ico")}}" rel="icon">
 </head>
 <body>
@@ -18,5 +18,5 @@
 {% include 'loginScript.html' %}
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="{{url_for('static', filename="bootstrap.min.js")}}"></script>
+<script src="{{url_for('static', filename="js/bootstrap.min.js")}}"></script>
 </html>

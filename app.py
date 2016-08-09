@@ -6,7 +6,9 @@ import sys
 import traceback
 from ClientException import ClientException
 import logging
+from Species import Species
 
+#<span class="glyphicon glyphicons-search"></span>
 #TODO add log stmts to any new exceptions
 #TODO add successmsg
 #TODO check min,max params more thoroughly
@@ -88,17 +90,17 @@ def trainer_list_logout():
 @app.route('/pokemon', methods=['GET'])
 def pokemon_list_page():
     pokemon = getPokemonForPokemonList(request)
-    return handleGet(request, 'pokemon_list.html', url_for("pokemon_list_login"), url_for("pokemon_list_logout"), pokemon=pokemon, pokemonActive=True)
+    return handleGet(request, 'pokemon_list.html', url_for("pokemon_list_login"), url_for("pokemon_list_logout"), pokemon=pokemon, pokemonActive=True, species=species.speciesList)
 
 @app.route('/pokemon/login', methods=['POST'])
 def pokemon_list_login():
     pokemon = getPokemonForPokemonList(request)
-    return handleLogin(request, 'pokemon_list.html', url_for("pokemon_list_login"), url_for("pokemon_list_logout"), pokemon=pokemon, pokemonActive=True)
+    return handleLogin(request, 'pokemon_list.html', url_for("pokemon_list_login"), url_for("pokemon_list_logout"), pokemon=pokemon, pokemonActive=True, species=species.speciesList)
 
 @app.route('/pokemon/logout', methods=['GET'])
 def pokemon_list_logout():
     pokemon = getPokemonForPokemonList(request)
-    return handleLogout(request, 'pokemon_list.html', url_for("pokemon_list_login"), pokemon=pokemon, pokemonActive=True)
+    return handleLogout(request, 'pokemon_list.html', url_for("pokemon_list_login"), pokemon=pokemon, pokemonActive=True, species=species.speciesList)
 
 # ====== TRAINER PROFILE METHODS ======#
 
@@ -183,7 +185,7 @@ def register_page_submit():
 
 # ====== GENERAL HANDLERS AND UTIL METHODS ======#
 
-def handleGet(request, templateToRender, loginUrl, logoutURL, pokemonActive=False, trainersActive=False, pokemon=[], trainers=[], trainerProfileID=None, trainerProfileName=None):
+def handleGet(request, templateToRender, loginUrl, logoutURL, pokemonActive=False, trainersActive=False, pokemon=[], trainers=[], trainerProfileID=None, trainerProfileName=None, species=None):
     msg = None
     try:
         cookie = request.cookies['cookie']
@@ -197,7 +199,7 @@ def handleGet(request, templateToRender, loginUrl, logoutURL, pokemonActive=Fals
             displayName = db.getTrainerName(trainerID)
             resp = make_response(
                 render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive,
-                                authID=trainerID, authName=displayName, logout=logoutURL, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName))
+                                authID=trainerID, authName=displayName, logout=logoutURL, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species))
             resp.set_cookie('cookie', cookieToReturn)
             resp.set_cookie('email', email)
             return resp
@@ -209,15 +211,15 @@ def handleGet(request, templateToRender, loginUrl, logoutURL, pokemonActive=Fals
             logging.critical(traceback.print_exc())
             msg = UNKOWN_ERROR_MSG
         resp = make_response(
-            render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive, msg=msg, login=loginUrl, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName))
+            render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive, msg=msg, login=loginUrl, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species))
         resp.set_cookie('cookie', '', expires=0)
         resp.set_cookie('email', '', expires=0)
         return resp
     except:
         return render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive,
-                               login=loginUrl, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName)
+                               login=loginUrl, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species)
 
-def handleLogin(request, templateToRender, login, logout,  pokemonActive=False, trainersActive=False, pokemon=[], trainers=[], trainerProfileID=None, trainerProfileName=None):
+def handleLogin(request, templateToRender, login, logout,  pokemonActive=False, trainersActive=False, pokemon=[], trainers=[], trainerProfileID=None, trainerProfileName=None, species=None):
     msg = None
     try:
         rslts = authUser(request)
@@ -227,7 +229,7 @@ def handleLogin(request, templateToRender, login, logout,  pokemonActive=False, 
         displayName = db.getTrainerName(trainerID)
         resp = make_response(
             render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive,
-                            authID=trainerID, authName=displayName, logout=logout, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName))
+                            authID=trainerID, authName=displayName, logout=logout, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species))
         resp.set_cookie('cookie', cookie)
         resp.set_cookie('email', email)
         return resp
@@ -239,10 +241,10 @@ def handleLogin(request, templateToRender, login, logout,  pokemonActive=False, 
         logging.critical(traceback.print_exc())
         msg = UNKOWN_ERROR_MSG
     return render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive, msg=msg,
-                           login=login, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName)
+                           login=login, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species)
 
 
-def handleLogout(request, templateToRender, loginUrl,  pokemonActive=False, trainersActive=False, pokemon=None, trainers=None, trainerProfileID=None, trainerProfileName=None):
+def handleLogout(request, templateToRender, loginUrl,  pokemonActive=False, trainersActive=False, pokemon=None, trainers=None, trainerProfileID=None, trainerProfileName=None, species=None):
     msg = None
     try:
         cookie = request.cookies['cookie']
@@ -261,13 +263,13 @@ def handleLogout(request, templateToRender, loginUrl,  pokemonActive=False, trai
             msg = UNKOWN_ERROR_MSG
         resp = make_response(
             render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive, msg=msg,
-                            login=loginUrl, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName))
+                            login=loginUrl, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species))
         resp.set_cookie('cookie', '', expires=0)
         resp.set_cookie('email', '', expires=0)
         return resp
     except:
         return render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive,
-                               login=loginUrl, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName)
+                               login=loginUrl, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species)
 
 def authUser(request):
     email = request.form['email']
@@ -321,5 +323,6 @@ def configure():
 if __name__ == '__main__':
     context = ('poke_cert.pem', 'poke_key.pem')
     db = DatabaseFacade()
+    species = Species()
     app.run(host='0.0.0.0', port=5000, threaded=True, debug=True, ssl_context=context)
 

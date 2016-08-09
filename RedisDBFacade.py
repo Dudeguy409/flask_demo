@@ -191,6 +191,8 @@ class DatabaseFacade:
         if num is None:
             num = 100
         ids = self.redisDB.zrangebyscore("Pokemon-By-CP", min, max, start, num)
+        print(ids)
+        print(max,min,start,num)
         return self.getPokemonFromIDs(ids)
 
     def getSpeciesPokemon(self, species, min=None, max=None, start=None, num=None):
@@ -272,7 +274,8 @@ class DatabaseFacade:
             trainerID=pokemon[3]
             trainerName = trainerNames[i]
             pokemonToReturn.append(Pokemon(pokemonID, name, species, cp, trainerID, trainerName))
-        return pokemonToReturn.reverse()
+        pokemonToReturn.reverse()
+        return pokemonToReturn
 
     #====== DELETE ITEM METHODS ======#
 
