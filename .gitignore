@@ -1,14 +1,6 @@
 
 *.pem
 
-.idea/vcs.xml
-
-.idea/workspace.xml
-
-.idea/workspace.xml
-
-.idea/workspace.xml
-
 *.pyc
 
 dump.rdb
