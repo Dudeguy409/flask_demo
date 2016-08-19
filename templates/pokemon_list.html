@@ -1,63 +1,45 @@
-{% extends "base.html" %}
-{% block title_prefix %}Pokemon Search - {% endblock %}
-{% block mainbody %}
-<div>
-  <div class="col-xs-2">
-    <label for="species-selector">Species:</label>
-    <select id="species-selector">
-      {% for tup in species %}
-      <option value="{{tup[1]}}">{{tup[0]}}</option>
-      {% endfor %}
-    </select>
+<div id="pokemon_list_page" style="display:none">
+  <div>
+    <div class="col-xs-2">
+      <label for="species-selector">Species:</label>
+      <select id="species-selector">
+        {% for tup in species %}
+        <option value="{{tup[1]}}">{{tup[0]}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-xs-2">
+      <label for="min-cp">Minimum CP:</label>
+      <input class="form-control" id="min-cp" type="number" min="10" step="1">
+      <label for="max-cp">Maximum CP:</label>
+      <input class="form-control" id="max-cp" type="number" min="10" step="1">
+    </div>
+    <div class="col-xs-2">
+      <label for="rslt-count-selector">Results per Page:</label>
+      <select id="rslt-count-selector">
+        <option value="100">100</option>
+        <option value="50">50</option>
+        <option value="25">25</option>
+        <option value="10">10</option>
+      </select>
+    </div>
+    <div class="col-xs-2">
+      <button class="btn btn-info" id="pokemon-search-button"><span class="glyphicon glyphicons-search"></span>Search</button>
+    </div>
   </div>
-  <div class="col-xs-2">
-    <label for="min-cp">Minimum CP:</label>
-    <input class="form-control" id="min-cp" type="number" min="10" step="1">
-    <label for="max-cp">Maximum CP:</label>
-    <input class="form-control" id="max-cp" type="number" min="10" step="1">
+  <div class="table-responsive container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nickname</th>
+          <th>Species</th>
+          <th>Trainer</th>
+          <th>CP</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
   </div>
-  <div class="col-xs-2">
-    <label for="rslt-count-selector">Results per Page:</label>
-    <select id="rslt-count-selector">
-      <option value="100">100</option>
-      <option value="50">50</option>
-      <option value="25">25</option>
-      <option value="10">10</option>
-    </select>
-  </div>
-  <div class="col-xs-2">
-    <button class="btn btn-info" id="pokemon-search-button"><span class="glyphicon glyphicons-search"></span>Search</button>
-  </div>
+  <div></div>
 </div>
-<div class="table-responsive container">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Nickname</th>
-        <th>Species</th>
-        <th>Trainer</th>
-        <th>CP</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for poke in pokemon %}
-      <tr>
-        <td>{{poke.name}}</td>
-        <td>{{poke.species}}</td>
-        <td><a href="{{url_for('trainer_profile_page', trainerProfileID=poke.trainerID)}}">{{poke.trainerName}}</a></td>
-        <td>{{poke.combatPower}}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-</div>
-<div></div>
-<script>
-var btn = document.getElementById('trainerName-search-button');
-btn.addEventListener("click", function() {
-  var trainerName= document.getElementById("trainer-search-name").value;
-  var newUrl = "{{url_for('trainer_list_page')}}"+"?trainerName='"+trainerName+"';";
-  window.location.replace(newUrl);
-});
-</script>
-{% endblock %}

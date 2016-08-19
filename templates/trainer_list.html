@@ -1,38 +1,22 @@
-{% extends "base.html" %}
-{% block title_prefix %}Trainer Search - {% endblock %}
-{% block mainbody %}
-<div class="container-fluid">
-<div class="input-group container-fluid">
-  <span class="input-group-btn">
-    <button class="btn btn-info" id="trainerName-search-button"><span class="glyphicon glyphicons-search"></span>Search</button>
-  </span>
-  <div class="container-fluid col-xs-4">
-    <input type="text" id="trainer-search-name" name="trainer-search-name" placeholder="Name to search for" class="form-control">
+
+<div id="trainer_list_page" class="container-fluid"  style="display:none">
+  <div class="input-group container-fluid">
+    <span class="input-group-btn">
+      <button class="btn btn-info" id="trainerName-search-button"><span class="glyphicon glyphicons-search"></span>Search</button>
+    </span>
+    <div class="container-fluid col-xs-4">
+      <input type="text" id="trainer-search-name" name="trainer-search-name" placeholder="Name to search for" class="form-control">
+    </div>
+  </div>
+  <div class="table-responsive container-fluid">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
   </div>
 </div>
-<div class="table-responsive container-fluid">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for trainer in trainers %}
-        <tr>
-          <td><a href="{{url_for('trainer_profile_page', trainerProfileID=trainer.trainerID)}}">{{trainer.displayName}}</a></td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-</div>
-</div>
-<script>
-var btn = document.getElementById('trainerName-search-button');
-btn.addEventListener("click", function() {
-  var trainerName= document.getElementById("trainer-search-name").value;
-  var newUrl = "{{url_for('trainer_list_page')}}"+"?trainerName='"+trainerName+"';";
-  window.location.replace(newUrl);
-});
-</script>
-{% endblock %}

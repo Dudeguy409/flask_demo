@@ -1,42 +1,24 @@
-{% extends "base.html" %}
-{% block title_prefix %}Home - {% endblock %}
-{% block mainbody %}
-	<div id="myCarousel" class="carousel slide" data-ride="carousel"
-		data-interval="3000">
-		<!-- Indicators -->
-		<ol class="carousel-indicators">
-			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-			<li data-target="#myCarousel" data-slide-to="1" class=""></li>
-			<li data-target="#myCarousel" data-slide-to="2" class=""></li>
-		</ol>
-		<div class="carousel-inner" role="listbox">
-			<div class="item active">
-				<img class="first-slide" src={{url_for('static', filename="poke_carousel_1.jpg")}}>
-				</img>
-				<div class="container">
-					<div class="carousel-caption">
-						<h1>Example headline.</h1>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<img class="second-slide" src={{url_for('static', filename="poke_carousel_2.jpg")}}>
-				</img>
-				<div class="container">
-					<div class="carousel-caption">
-						<h1>Another example headline.</h1>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<img class="third-slide" src={{url_for('static', filename="poke_carousel_3.jpg")}}>
-				</img>
-				<div class="container">
-					<div class="carousel-caption">
-						<h1>One more for good measure.</h1>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The Ultimate PokeDex</title>
+    <link href="{{url_for('static', filename="style.css")}}" rel="stylesheet">
+    <link href="{{url_for('static', filename="css/bootstrap.min.css")}}" rel="stylesheet">
+    <link href="{{url_for('static', filename="favicon.ico")}}" rel="icon">
+</head>
+<body>
+{% include 'navi.html' %}
+{% include 'home.html' %}
+{% include 'pokemon_list.html' %}
+{% include 'trainer_profile.html' %}
+{% include 'trainer_list.html' %}
+{% include 'register.html' %}
+{% include 'script.html' %}
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="{{url_for('static', filename="sha3.js")}}"></script>
+<script src="{{url_for('static', filename="js/bootstrap.min.js")}}"></script>
+</html>

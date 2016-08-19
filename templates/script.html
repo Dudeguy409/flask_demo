@@ -1,0 +1,358 @@
+<script>
+
+function getCookies(){
+  var pairs = document.cookie.split(";");
+  var cookies = {};
+  for (var i=0; i<pairs.length; i++){
+    var pair = pairs[i].split("=");
+    cookies[pair[0].trim()] = unescape(pair[1]);
+  }
+  return cookies;
+}
+
+function hasAppropriateCookies(){
+  var cookies = getCookies();
+  if (cookies == null){
+    return false;
+  }
+  if ("cookie" in cookies && "email" in cookies && "displayName" in cookies && "trainerID" in cookies){
+    return true;
+  }
+  return false;
+}
+
+function updateAuth(){
+  trainerID = null;
+  if (hasAppropriateCookies()){
+    preAuthNavItem.style.display = "none";
+    for(i in postAuthNavItems){
+      postAuthNavItems[i].style.display = "block";
+    }
+    var cookies = getCookies();
+    userInfo["id"] = cookies["trainerID"];
+    userInfo["name"] = cookies["displayName"];
+    document.getElementById("profile_nav_name").text = userInfo["name"];
+    trainerID = userInfo["id"];
+  }else{
+    preAuthNavItem.style.display = "block";
+    for(i in postAuthNavItems){
+      postAuthNavItems[i].style.display = "none";
+    }
+    userInfo["id"] = null;
+    userInfo["name"] = null;
+    document.getElementById("profile_nav_name").text = "Error loading trainer name";
+    trainerID = userInfo["id"];
+  }
+  if(currentPage=="trainer_profile_page" && trainerID == currentTrainerProfileID){
+    updateTrainerProfile(trainerID);
+  }
+}
+
+function checkPasswordFormat(password){
+
+  if(password.length<8){
+    alert("your password must be at least 8 characters.");
+    return false;
+  }
+
+  var rePass = /^\w+$/
+  if(!rePass.test(password)){
+    alert("Your password must only contain letters, numbers, or underscores.");
+    return false;
+  }
+
+  var reChar = /^\w*[a-zA-Z]+\w*$/;
+  if(!reChar.test(password)){
+    alert("Your password must contain at least one letter");
+    return false;
+  }
+
+  var reNum = /^\w*\d+\w*$/;
+  if(!reNum.test(password)) {
+    alert("Your password must contain at least one number");
+    return false;
+  }
+
+  return true;
+}
+
+function hashPassword(email, password){
+  //The user's email is used as a salt
+  var hashedPass= password+email;
+  for (var i = 0; i < 5000; i++) {
+    hashedPass = CryptoJS.SHA3(hashedPass + password + email, { outputLength: 512 });
+  }
+  return hashedPass
+}
+
+function checkEmailFormat(email){
+
+  var re = /^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]{2,63}$/;
+  if(!re.test(email)){
+    alert("Please enter an email with a validly formatted email address.");
+    return false;
+  }
+
+  return true;
+}
+
+function processLoginForm(e) {
+  if (e.preventDefault){
+    e.preventDefault();
+  }
+
+  var emailInput = document.getElementById("login-email");
+  var passwordInput = document.getElementById("login-password");
+
+  var email = emailInput.value;
+  var password = passwordInput.value;
+
+  if(!checkEmailFormat(email)){
+    return false;
+  }
+
+  if(!password){
+    alert("A password is required");
+    return false;
+  }
+
+  if(!checkPasswordFormat(password)){
+    return false;
+  }
+
+  hashedPass = hashPassword(email,password)
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4) {
+      if(xhttp.status == 200){
+        updateAuth()
+        emailInput.value = "";
+        passwordInput.value = "";
+      }else{
+        alert("Status Code: "+ xhttp.status + "; "+xhttp.responseText);
+      }
+    }
+  };
+  xhttp.open("POST", "{{ url_for('handleLogin') }}", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("email="+escape(email)+"&password="+escape(hashedPass));
+}
+
+function clearRegisterPage(){
+  var emailInput = document.getElementById("register-email");
+  var passwordInput = document.getElementById("register-password");
+  var displayNameInout = document.getElementById("register-name");
+  var confirmPasswordInput = document.getElementById("register-confirm-password");
+
+  emailInput.value = "";
+  passwordInput.value = "";
+  displayNameInout.value = "";
+  confirmPasswordInput.value = "";
+
+  registerNavButton.style.display="block";
+}
+
+function processRegisterForm(e) {
+  if (e.preventDefault){
+    e.preventDefault();
+  }
+
+  var emailInput = document.getElementById("register-email");
+  var passwordInput = document.getElementById("register-password");
+  var displayNameInout = document.getElementById("register-name");
+  var confirmPasswordInput = document.getElementById("register-confirm-password");
+
+  var email = emailInput.value;
+  var password = passwordInput.value;
+  var displayName = displayNameInout.value;
+  var confirmPassword = confirmPasswordInput.value;
+
+  if(!checkEmailFormat(email)){
+    return false;
+  }
+
+  if(!displayName){
+    alert("Name is a required field");
+    return false;
+  }
+
+  if(!password){
+    alert("A password is required");
+    return false;
+  }
+  if(!confirmPassword){
+    alert("Please reenter your password in the confirm password field.");
+    return false;
+  }
+  if(confirmPassword!=password){
+    alert("the two passwords that you entered do not match.");
+    return false;
+  }
+
+  if(!checkPasswordFormat(password)){
+    return false;
+  }
+
+  var hashedPass = hashPassword(email,password)
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4) {
+      if(xhttp.status == 200){
+        changeToPage("home");
+      }else{
+        alert("Status Code: "+ xhttp.status + "; "+xhttp.responseText);
+      }
+    }
+  };
+  xhttp.open("POST", "{{ url_for('register_page_submit') }}", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("name="+escape(displayName)+"&email="+escape(email)+"&password="+escape(hashedPass));
+}
+
+var registerForm = document.getElementById('register-form');
+if (registerForm.attachEvent) {
+  registerForm.attachEvent("submit", processRegisterForm);
+} else {
+  registerForm.addEventListener("submit", processRegisterForm);
+}
+
+var loginForm = document.getElementById('login-form');
+if (loginForm.attachEvent) {
+    loginForm.attachEvent("submit", processLoginForm);
+} else {
+    loginForm.addEventListener("submit", processLoginForm);
+}
+
+var trainerNameSearchButton = document.getElementById('trainerName-search-button');
+trainerNameSearchButton.addEventListener("click", function() {
+  var trainerName= document.getElementById("trainer-search-name").value;
+  var queryUrl = "{{url_for('trainer_list')}}"+"?trainerName='"+trainerName+"';";
+  //TODO
+});
+
+var homeNavButton = document.getElementById('home_nav_button');
+homeNavButton.addEventListener("click", function() {
+  changeToPage("home");
+});
+
+var trainersNavButton = document.getElementById('trainers_nav_button');
+trainersNavButton.addEventListener("click", function() {
+  changeToPage("trainer_list_page");
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if(xhttp.readyState == 4) {
+      if(xhttp.status == 200){
+        //TODO parse the JSON
+        alert("Status Code: "+ xhttp.status + "; "+xhttp.responseText);
+      }else{
+        alert("Status Code: "+ xhttp.status + "; "+xhttp.responseText);
+      }
+    }
+  };
+  xhttp.open("GET", "{{ url_for('trainer_list') }}", true);
+  xhttp.send();
+});
+
+var pokemonNavButton = document.getElementById('pokemon_nav_button');
+pokemonNavButton.addEventListener("click", function() {
+  changeToPage("pokemon_list_page");
+  //TODO update if necessary
+});
+
+var registerNavButton = document.getElementById("register-nav-button");
+registerNavButton.addEventListener("click", function() {
+  registerNavButton.style.display="none";
+  changeToPage("register_page");
+});
+
+var profileNavButton = document.getElementById("profile_nav_button");
+profileNavButton.addEventListener("click", function() {
+  updateTrainerProfile(userInfo["id"]);
+});
+
+function updateTrainerProfile(trainerID){
+  changeToPage("trainer_profile_page");
+  currentTrainerProfileID = trainerID;
+  if(trainerID in trainerProfileObjects){
+    populateTrainerProfile(trainerID)
+  }else{
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if(xhttp.readyState == 4) {
+        if(xhttp.status == 200){
+          //TODO parse the JSON
+          trainerProfileObjects[trainerID] = xhttp.responseText;
+          populateTrainerProfile(trainerID)
+        }else{
+          alert("Status Code: "+ xhttp.status + "; "+xhttp.responseText);
+        }
+      }
+    };
+    xhttp.open("GET", "/trainers/"+userInfo["id"], true);
+    xhttp.send();
+  }
+}
+
+function populateTrainerProfile(trainerID){
+  alert(trainerProfileObjects[trainerID]);
+  if(trainerID==userInfo[id]){
+    //TODO add edit options
+  }
+  //TODO add the normal crap right here; parse from JSON.
+}
+
+var logoutButton = document.getElementById("logout_item");
+logoutButton.addEventListener("click", function() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4) {
+      if(xhttp.status == 200){
+        alert("Status Code: "+ xhttp.status + "; "+xhttp.responseText);
+      }else{
+        alert("Status Code: "+ xhttp.status + "; "+xhttp.responseText);
+      }
+      updateAuth()
+    }
+  };
+  xhttp.open("GET", "{{ url_for('handleLogout') }}", true);
+  xhttp.send();
+});
+
+function changeToPage(id){
+  if(currentPage != null){
+    pages[currentPage].style.display="none";
+    clear = clearPageMethods[currentPage];
+    if(clear != null){
+      clear();
+    }
+  }
+  pages[id].style.display="block";
+  currentPage=id;
+}
+
+function clearTrainerProfilePage(){
+  currentTrainerProfileID = null;
+  //TODO more stuff to come!
+}
+
+//TODO when implementing history, make sure that a page load will cuase the register button to appear as expected
+//TODO implement web history and back buttons
+//TODO check that I should attach submit event listeners for login and register
+//TODO implement resource reload on refresh
+//TODO implement the rest of clear page methods and view populating methods.
+//TODO add more data to cache, especially for pagination
+var preAuthNavItem = document.getElementById("pre_auth_nav_item");
+var postAuthNavItems = [profileNavButton, logoutButton];
+var pages = {home:document.getElementById("home"), trainer_profile_page:document.getElementById("trainer_profile_page"), trainer_list_page:document.getElementById("trainer_list_page"), register_page:document.getElementById("register_page"), pokemon_list_page:document.getElementById("pokemon_list_page")};
+var userInfo = {id:null,name:null};
+var trainerProfileObjects={};
+var currentPage = null;
+var currentTrainerProfileID = null;
+var clearPageMethods = {home:null, trainer_profile_page:clearTrainerProfilePage, trainer_list_page:null, register_page:clearRegisterPage, pokemon_list_page:null};
+
+changeToPage("home");
+updateAuth();
+
+</script>

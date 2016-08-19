@@ -11,6 +11,7 @@ class DatabaseFacade:
 
 #TODO fix enum species
 #TODO add pipes AND return stmts to any new code
+#TODO add MongoDB?
     def __init__(self):
         self.redisDB = redis.StrictRedis(host='localhost', port=6379)
         return
@@ -70,8 +71,8 @@ class DatabaseFacade:
             raise ClientException("The supplied cookied did not have a mapping to a date and/or trainerID.  It appears to not be in the database.  It may have expired and been deleted.")
         expectedTrainerEmail = self.redisDB.get("Trainer:"+trainerID+":email")
         if not expectedTrainerEmail == emailToCheck:
-            raise Exception("The email supplied in a cookie did not match the cookie on file.  Could be a rogue client or a design issue.")
-        return (trainerID,date)
+            raise ClientException("The email supplied in a cookie did not match the email for the cookie on file.")
+        return trainerID
 
     # Takes in an email (string) and password (string).
     # Returns a trainerID (string), or throws an exception
@@ -102,7 +103,7 @@ class DatabaseFacade:
         pipe.execute()
         return
 
-    def getNewCookie(self, trainerID):
+    def generateNewCookieForTrainer(self, trainerID):
         cookieToReturn = self.generateRandomCookie()
         dateToAdd = datetime.date.today().strftime("%Y-%m-%d")
         pipe = self.redisDB.pipeline()
@@ -144,6 +145,7 @@ class DatabaseFacade:
 
     #====== ADD ITEM METHODS ======#
 
+    # Assumes that the name and email are a valid format, but checks that the email isn't already in use.
     def registerTrainer(self, displayName, email, hashedPassword):
         existingID = self.redisDB.get("Email:"+email+":TrainerID")
         if existingID is not None:
@@ -163,6 +165,7 @@ class DatabaseFacade:
         return trainerID
 
     #TODO create move lists, or cp lists
+    # Assumes that all values entered are valid.
     def addPokemonToTrainer(self, trainerID, nickname, species, cp):
         pokemonID = self.popNextPokemonID()
 
@@ -175,7 +178,7 @@ class DatabaseFacade:
         pipe.sadd("Trainer:"+trainerID+":Pokemon", pokemonID)
         pipe.zadd("Pokemon-By-CP",cp,pokemonID)
         pipe.zadd("Species:"+species+":Pokemon", cp, pokemonID)
-        
+
         pipe.execute()
         return
 
@@ -279,7 +282,10 @@ class DatabaseFacade:
 
     #====== DELETE ITEM METHODS ======#
 
+    # This method assumes that the trainer ID is valid and that if the pokemon exists or belongs to someone, it completely exists or belongs to someone.
     def deleteSpecificPokemon(self, pokemonID, trainerID):
+        if not self.redisDB.sismember("Trainer:" + trainerID + ":Pokemon", pokemonID):
+            raise ClientException("There was an error attempting to delete this pokemon.  It appears to either not exist or not belong to you.")
         species = self.redisDB.get("Pokemon:" + pokemonID + ":species")
         pipe = self.redisDB.pipeline()
         pipe.delete("Pokemon:" + pokemonID + ":nickname")
@@ -292,6 +298,7 @@ class DatabaseFacade:
         pipe.execute()
         return
 
+    # This method assumes that the trainer id is valid and has permission to delete their account.  In addition to all trainer information, it deletes cookies and pokemon completely if they exist.
     def removeTrainer(self, trainerID):
         self.deleteCookieForTrainerIfExists(trainerID)
         queryPipe = self.redisDB.pipeline()

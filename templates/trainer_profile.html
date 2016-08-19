@@ -1,25 +1,16 @@
-{% extends "base.html" %}
-{% block title_prefix %}{% if trainerProfileID is defined and trainerProfileID == authID %}My {% else %}{{trainerProfileName}}'s {% endif %}Profile - {% endblock %}
-{% block mainbody %}
-<div>{{trainerProfileName}}</div>
-<div class="table-responsive">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Nickname</th>
-        <th>Species</th>
-        <th>CP</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for poke in pokemon %}
-      <tr>
-        <td>{{poke.name}}</td>
-        <td>{{poke.species}}</td>
-        <td>{{poke.combatPower}}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+<div id="trainer_profile_page" style="display:none">
+  <div>trainerProfileName goes here</div>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nickname</th>
+          <th>Species</th>
+          <th>CP</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
 </div>
-{% endblock %}

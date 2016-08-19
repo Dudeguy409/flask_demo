@@ -8,279 +8,265 @@ from ClientException import ClientException
 import logging
 from Species import Species
 
-#<span class="glyphicon glyphicons-search"></span>
-#TODO add log stmts to any new exceptions
-#TODO add successmsg
+#TODO get cache actually working
+#TODO implement status codes everywhere
+#TODO get log stmts where possible rogue client/attacks could be occuring
 #TODO check min,max params more thoroughly
 #TODO fix species enum
+#TODO convert objs to JSON
+#TODO handle exceptions appropriately in every api and such request
 app = Flask(__name__)
+species = Species()
 UNKOWN_ERROR_MSG = "An unexpected error occurred.  This error has been reported to our development team and will hopefully be handled soon."
+cache = {}
 
 # ====== HOME METHODS ======#
 
-@app.route('/login', methods=['GET'])
-@app.route('/home/login', methods=['GET'])
 @app.route('/', methods=['GET'])
-@app.route('/home', methods=['GET'])
 def home_page():
-    return handleGet(request, 'index.html', url_for("home_page_auth"), url_for("home_page_logout"))
-
-
-@app.route('/login', methods=['POST'])
-@app.route('/home/login', methods=['POST'])
-def home_page_auth():
-    return handleLogin(request, 'index.html', url_for("home_page_auth"), url_for("home_page_logout"))
-
-@app.route('/logout', methods=['GET'])
-@app.route('/home/logout', methods=['GET'])
-def home_page_logout():
-    return handleLogout(request, 'index.html', url_for("home_page_auth"))
+    page = cache.get('home')
+    if page is None:
+        page = render_template('index.html', species = species.getAllSpecies())
+        cache['page'] = page
+        print("home page was regenerated")
+    return page
 
 # ====== DEVELOPER METHODS ======#
 
+#TODO status codes
+#TODO authenticate first
 @app.route('/print', methods=['GET'])
 def print_DB():
     db.printDB()
-    return handleGet(request, 'index.html', url_for("home_page_auth"), url_for("home_page_logout"))
+    return make_response()
 
-#TODO send popup when successful
+#TODO status codes
+#TODO authenticate first
 @app.route('/reset', methods=['GET'])
 def reset_DB():
     db.clearDatabase()
-    return handleGet(request, 'index.html', url_for("home_page_auth"), url_for("home_page_logout"))
+    return make_response()
 
-# ====== TRAINERS LIST METHODS ======#
+# ====== API QUERY METHODS ======#
 
-@app.route('/trainers/login', methods=['GET'])
+#TODO status codes
 @app.route('/trainers', methods=['GET'])
-def trainer_list_page():
+def trainer_list():
     trainerName = request.args.get('trainer-search-name')
     trainers = None
     if trainerName:
         trainers = db.getTrainersByStrictNameMatch(trainerName)
     else:
         trainers = db.getAllTrainers()
-    return handleGet(request, 'trainer_list.html', url_for("trainer_list_login"), url_for("trainer_list_logout"), trainers=trainers, trainersActive=True)
+    return trainers
 
-@app.route('/trainers/login', methods=['POST'])
-def trainer_list_login():
-    trainerName = request.args.get('trainer-search-name')
-    trainers = None
-    if trainerName:
-        trainers = db.getTrainersByStrictNameMatch(trainerName)
-    else:
-        trainers = db.getAllTrainers()
-    return handleLogin(request, 'trainer_list.html', url_for("trainer_list_login"), url_for("trainer_list_logout"),
-                     trainers=trainers, trainersActive=True)
-
-@app.route('/trainers/logout', methods=['GET'])
-def trainer_list_logout():
-    trainerName = request.args.get('trainer-search-name')
-    trainers = None
-    if trainerName:
-        trainers = db.getTrainersByStrictNameMatch(trainerName)
-    else:
-        trainers = db.getAllTrainers()
-    return handleLogout(request, 'trainer_list.html', url_for("trainer_list_login"),
-                     trainers=trainers, trainersActive=True)
-
-# ====== POKEMON LIST METHODS ======#
-
-@app.route('/pokemon/login', methods=['GET'])
+#TODO status codes
 @app.route('/pokemon', methods=['GET'])
-def pokemon_list_page():
+def pokemon_list():
     pokemon = getPokemonForPokemonList(request)
-    return handleGet(request, 'pokemon_list.html', url_for("pokemon_list_login"), url_for("pokemon_list_logout"), pokemon=pokemon, pokemonActive=True, species=species.speciesList)
+    return pokemon
 
-@app.route('/pokemon/login', methods=['POST'])
-def pokemon_list_login():
-    pokemon = getPokemonForPokemonList(request)
-    return handleLogin(request, 'pokemon_list.html', url_for("pokemon_list_login"), url_for("pokemon_list_logout"), pokemon=pokemon, pokemonActive=True, species=species.speciesList)
-
-@app.route('/pokemon/logout', methods=['GET'])
-def pokemon_list_logout():
-    pokemon = getPokemonForPokemonList(request)
-    return handleLogout(request, 'pokemon_list.html', url_for("pokemon_list_login"), pokemon=pokemon, pokemonActive=True, species=species.speciesList)
-
-# ====== TRAINER PROFILE METHODS ======#
-
-#TODO if trainer doesn't exist, rdr to home page and send them a msg that the user that they are attempting to view has been deleted
-@app.route('/trainers/<trainerProfileID>/login', methods=['GET'])
+#TODO status codes
+#TODO if trainer doesn't exist, send them a msg that the user that they are attempting to view has been deleted
 @app.route('/trainers/<trainerProfileID>', methods=['GET'])
-def trainer_profile_page(trainerProfileID):
+def trainer_profile(trainerProfileID):
     trainerName = db.getTrainerName(trainerProfileID)
     pokemon = db.getPokemonForTrainer(trainerProfileID)
-    return handleGet(request, 'trainer_profile.html', url_for("trainer_profile_login",trainerProfileID=trainerProfileID), url_for("trainer_profile_logout",trainerProfileID=trainerProfileID), pokemon=pokemon, trainerProfileID=trainerProfileID, trainerProfileName=trainerName)
+    return [trainerName, pokemon]
 
-@app.route('/trainers/<trainerProfileID>/login', methods=['POST'])
-def trainer_profile_login(trainerProfileID):
-    trainerName = db.getTrainerName(trainerProfileID)
-    pokemon = db.getPokemonForTrainer(trainerProfileID)
-    return handleLogin(request, 'trainer_profile.html', url_for("trainer_profile_login",trainerProfileID=trainerProfileID), url_for("trainer_profile_logout",trainerProfileID=trainerProfileID), pokemon=pokemon, trainerProfileID=trainerProfileID, trainerProfileName=trainerName)
+# ====== API ADD/DELETE METHODS ======#
 
-@app.route('/trainers/<trainerProfileID>/logout', methods=['GET'])
-def trainer_profile_logout(trainerProfileID):
-    trainerName = db.getTrainerName(trainerProfileID)
-    pokemon = db.getPokemonForTrainer(trainerProfileID)
-    return handleLogout(request, 'trainer_profile.html', url_for("trainer_profile_login",trainerProfileID=trainerProfileID), pokemon=pokemon, trainerProfileID=trainerProfileID, trainerProfileName=trainerName)
-
-# ====== REGISTER METHODS ======#
-
-# TODO consider refactoring to combine with Home
-@app.route('/register', methods=['GET'])
-def register_page():
+#TODO implement this:  retrieve the values from the request and check their validity, then call the DB method.
+@app.route('/trainers/<trainerID>/pokemon', methods=['POST'])
+def add_pokemon_to_trainer(trainerID):
+    msg = None
+    cookie = None
+    statusCode = 200
     try:
-        cookie = request.cookies['cookie']
-        email = request.cookies['email']
-        try:
-            rslts = db.validateCookie(cookie, email)
-            trainerID = rslts[0]
-            date = rslts[1]
-            db.deleteCookie(trainerID, cookie, date)
-            cookieToReturn = db.getNewCookie(trainerID)
-            displayName = db.getTrainerName(trainerID)
-            msg = "You must be logged out in order to register as a new user."
-            resp = make_response(
-                render_template('index.html', authID=trainerID,
-                                authName=displayName, msg = msg, logout=url_for("home_page_logout")))
-            resp.set_cookie('cookie', cookieToReturn)
-            resp.set_cookie('email', email)
-            return resp
-        except ClientException as e:
-            msg = str(e)
-        except:
-            logging.critical(str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
-            logging.critical(traceback.print_exc())
-            msg = UNKOWN_ERROR_MSG
-        resp = make_response(
-                render_template('index.html', msg=msg, login=url_for("home_page_auth")))
-        resp.set_cookie('cookie', '', expires=0)
-        resp.set_cookie('email', '', expires=0)
-        return resp
+        trainerAuthID = authCookie(request)
+        cookie = db.generateNewCookieForTrainer(trainerAuthID)
+        if not trainerID == trainerAuthID:
+            raise ClientException("You do not have permission to add a pokemon to this account.")
+        #db.addPokemonToTrainer()
+        msg = "your pokemon has been added"
+    except ClientException as e:
+        msg = str(e)
+        statusCode = 400
     except:
-        return render_template('register.html', register=True, login = url_for("home_page_auth"))
+        logging.critical(str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+        logging.critical(traceback.print_exc())
+        msg = UNKOWN_ERROR_MSG
+        statusCode = 500
+    resp = make_response(msg, statusCode)
+    if cookie is not None:
+        resp.set_cookie('cookie', cookie)
+    return resp
+
+@app.route('/trainers/<trainerID>/pokemon/<pokemonID>', methods=['DELETE'])
+def delete_pokemon_from_trainer(trainerID, pokemonID):
+    msg = None
+    cookie = None
+    statusCode = 200
+    try:
+        trainerAuthID = authCookie(request)
+        cookie = db.generateNewCookieForTrainer(trainerAuthID)
+        if not trainerID == trainerAuthID:
+            raise ClientException("You do not have permission to delete this pokemon.")
+        db.deleteSpecificPokemon(pokemonID, trainerAuthID)
+        msg = "your pokemon has been deleted"
+    except ClientException as e:
+        msg = str(e)
+        statusCode = 400
+    except:
+        logging.critical(str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+        logging.critical(traceback.print_exc())
+        msg = UNKOWN_ERROR_MSG
+        statusCode = 500
+    resp = make_response(msg, statusCode)
+    if cookie is not None:
+        resp.set_cookie('cookie', cookie)
+    return resp
+
+@app.route('/trainers/<trainerID>', methods=['DELETE'])
+def delete_trainer(trainerID):
+    msg = None
+    statusCode = 200
+    try:
+        trainerAuthID = authCookie(request)
+        if not trainerID == trainerAuthID:
+            raise ClientException("You do not have permission to delete this account.")
+        db.removeTrainer(trainerAuthID)
+        msg = "your account has been deleted"
+    except ClientException as e:
+        msg = str(e)
+        statusCode = 400
+    except:
+        logging.critical(str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+        logging.critical(traceback.print_exc())
+        msg = UNKOWN_ERROR_MSG
+        statusCode = 500
+    resp = make_response(msg, statusCode)
+    resp.set_cookie('cookie', '', expires=0)
+    resp.set_cookie('email', '', expires=0)
+    resp.set_cookie('displayName', '', expires=0)
+    resp.set_cookie('trainerID', '', expires=0)
+    return resp
+
+
+# ====== REGISTER and AUTH METHODS ======#
+
 
 @app.route('/register', methods=['POST'])
 def register_page_submit():
     #TODO put in a not a robot box and maybe generate a temp session id
     #TODO have more strict name or password checks?  could a rogue client break my password hasher?
     msg = None
+    statusCode = 200
     try:
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
+        name = None
+        email = None
+        password = None
+        try:
+            name = request.form['name']
+            email = request.form['email']
+            password = request.form['password']
+        except:
+            raise ClientException("Not all fields included in form.")
         checkEmail(email)
         if not name or not password:
             raise ClientException('no password or display name was supplied')
         db.registerTrainer(name,email,password)
         msg = "Congratulations!  You have been successfully registered!  Now you need to log in."
-        return render_template('index.html', msg = msg, login = url_for("home_page_auth"))
     except ClientException as e:
         msg = str(e)
+        statusCode = 400
     except:
         logging.critical(str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
         logging.critical(traceback.print_exc())
         msg = UNKOWN_ERROR_MSG
-    return render_template('register.html', register=True, msg = msg, login = url_for("home_page_auth"))
+        statusCode = 500
+    return msg, statusCode
 
-# ====== GENERAL HANDLERS AND UTIL METHODS ======#
-
-def handleGet(request, templateToRender, loginUrl, logoutURL, pokemonActive=False, trainersActive=False, pokemon=[], trainers=[], trainerProfileID=None, trainerProfileName=None, species=None):
+@app.route('/login', methods=['POST'])
+def handleLogin():
     msg = None
-    try:
-        cookie = request.cookies['cookie']
-        email = request.cookies['email']
-        try:
-            rslts = db.validateCookie(cookie, email)
-            trainerID = rslts[0]
-            date = rslts[1]
-            db.deleteCookie(trainerID, cookie, date)
-            cookieToReturn = db.getNewCookie(trainerID)
-            displayName = db.getTrainerName(trainerID)
-            resp = make_response(
-                render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive,
-                                authID=trainerID, authName=displayName, logout=logoutURL, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species))
-            resp.set_cookie('cookie', cookieToReturn)
-            resp.set_cookie('email', email)
-            return resp
-        except ClientException as e:
-            logging.warning(str(sys.exc_info()[1]) + ":" + request.remote_addr)
-            msg = str(e)
-        except:
-            logging.critical(str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
-            logging.critical(traceback.print_exc())
-            msg = UNKOWN_ERROR_MSG
-        resp = make_response(
-            render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive, msg=msg, login=loginUrl, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species))
-        resp.set_cookie('cookie', '', expires=0)
-        resp.set_cookie('email', '', expires=0)
-        return resp
-    except:
-        return render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive,
-                               login=loginUrl, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species)
-
-def handleLogin(request, templateToRender, login, logout,  pokemonActive=False, trainersActive=False, pokemon=[], trainers=[], trainerProfileID=None, trainerProfileName=None, species=None):
-    msg = None
+    statusCode = 200
     try:
         rslts = authUser(request)
         trainerID = rslts[0]
         email = rslts[1]
         cookie = rslts[2]
         displayName = db.getTrainerName(trainerID)
-        resp = make_response(
-            render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive,
-                            authID=trainerID, authName=displayName, logout=logout, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species))
+        resp = make_response("Success")
         resp.set_cookie('cookie', cookie)
         resp.set_cookie('email', email)
+        resp.set_cookie('displayName', displayName)
+        resp.set_cookie('trainerID', trainerID)
         return resp
     except ClientException as e:
         logging.warning(str(sys.exc_info()[1]) + ":" + request.remote_addr)
         msg = str(e)
+        statusCode = 400
     except:
         logging.critical(str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
         logging.critical(traceback.print_exc())
         msg = UNKOWN_ERROR_MSG
-    return render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive, msg=msg,
-                           login=login, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species)
+        statusCode = 500
+    return msg, statusCode
 
-
-def handleLogout(request, templateToRender, loginUrl,  pokemonActive=False, trainersActive=False, pokemon=None, trainers=None, trainerProfileID=None, trainerProfileName=None, species=None):
+@app.route('/logout', methods=['GET'])
+def handleLogout():
     msg = None
+    statusCode = 200
     try:
-        cookie = request.cookies['cookie']
-        email = request.cookies['email']
-        try:
-            rslts = db.validateCookie(cookie, email)
-            trainerID = rslts[0]
-            date = rslts[1]
-            db.deleteCookie(trainerID, cookie, date)
-            msg = "You have been successfully logged out."
-        except ClientException as e:
-            msg = str(e)
-        except:
-            logging.critical(str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
-            logging.critical(traceback.print_exc())
-            msg = UNKOWN_ERROR_MSG
-        resp = make_response(
-            render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive, msg=msg,
-                            login=loginUrl, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species))
-        resp.set_cookie('cookie', '', expires=0)
-        resp.set_cookie('email', '', expires=0)
-        return resp
+        authCookie(request)
+        msg = "You have been successfully logged out."
+    except ClientException as e:
+        msg = str(e)
+        statusCode = 400
     except:
-        return render_template(templateToRender, pokemonActive=pokemonActive, trainersActive=trainersActive,
-                               login=loginUrl, pokemon=pokemon, trainers=trainers, trainerProfileID=trainerProfileID,trainerProfileName=trainerProfileName, species=species)
+        logging.critical(str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+        logging.critical(traceback.print_exc())
+        msg = UNKOWN_ERROR_MSG
+        statusCode = 500
+    resp = make_response(msg, statusCode)
+    resp.set_cookie('cookie', '', expires=0)
+    resp.set_cookie('email', '', expires=0)
+    resp.set_cookie('displayName', '', expires=0)
+    resp.set_cookie('trainerID', '', expires=0)
+    return resp
 
 def authUser(request):
-    email = request.form['email']
-    givenPassword = request.form['password']
+    email = None
+    givenPassword = None
+    try:
+        email = request.form['email']
+        givenPassword = request.form['password']
+    except:
+        raise ClientException("Not all form fields included")
     if not givenPassword:
         raise ClientException("No password was given")
     checkEmail(email)
     trainerID = db.validateUser(email, givenPassword)
     db.deleteCookieForTrainerIfExists(trainerID)
-    cookie = db.getNewCookie(trainerID)
+    cookie = db.generateNewCookieForTrainer(trainerID)
     return (trainerID, email, cookie)
+
+def authCookie(request):
+    cookie = None
+    email = None
+    try:
+        cookie = request.cookies['cookie']
+        email = request.cookies['email']
+    except:
+        raise ClientException("You did not supply a cookie.  Your request could not be processed.  You will need to log in again or something.")
+    trainerID = db.validateCookie(cookie, email)
+    db.deleteCookieForTrainerIfExists(trainerID)
+    return trainerID
+
+
+
+    # ====== GENERAL HANDLERS AND UTIL METHODS ======#
 
 def checkEmail(email):
     if not re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]{2,63}$", email):
@@ -291,7 +277,9 @@ def checkIsInt(*args):
     for i in args:
         if not isinstance(i, int) and not isinstance(int(i),int):
             raise ValueError("illegal value:"+str(i)+";")
+    return
 
+#TODO handle exceptions from the second try method?
 def getPokemonForPokemonList(request):
     min = request.args.get('min')
     max = request.args.get('max')
@@ -325,4 +313,3 @@ if __name__ == '__main__':
     db = DatabaseFacade()
     species = Species()
     app.run(host='0.0.0.0', port=5000, threaded=True, debug=True, ssl_context=context)
-

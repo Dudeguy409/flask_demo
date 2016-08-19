@@ -4,44 +4,39 @@
         <nav class="navbar navbar-inverse navbar-fixed-top">
           <div class="container">
             <div class="navbar-header">
-              <a class="navbar-brand" href="{{url_for('home_page')}}">The Ultimate PokeDex</a>
+              <a id="home_nav_button" class="navbar-brand">The Ultimate PokeDex</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
 
               <ul class="nav navbar-nav">
-                <li class="{% if trainersActive %}Active{% endif %}"><a href="{{url_for('trainer_list_page')}}">Trainers</a></li>
-                <li class="{% if pokemonActive %}Active{% endif %}"><a href="{{url_for('pokemon_list_page')}}">Pokemon</a></li>
+                <li id="trainers_nav_button" class=""><a>Trainers</a></li>
+                <li id="pokemon_nav_button" class=""><a>Pokemon</a></li>
               </ul>
               <ul class="nav navbar-nav">
                 <form class=" navbar-form">
-                  <li style="float:left;"><a href="{{url_for('reset_DB')}}" class="btn btn-danger">Reset DB</a></li>
-                  <li style="float:left;"><a href="{{url_for('print_DB')}}" class="btn btn-info">Print DB</a></li>
+                  <li style="float:left;"><a id="reset_db_button" class="btn btn-danger">Reset DB</a></li>
+                  <li style="float:left;"><a id="print_db_button" class="btn btn-info">Print DB</a></li>
                 </form>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                {% if authID is defined and authName is defined %}
-                <li><a href="{{url_for('trainer_profile_page', trainerProfileID=authID)}}">{{authName}}</a></li>
-                <li>
+                <li id="profile_nav_button" style="display:none"><a id="profile_nav_name"></a></li>
+                <li id="logout_item" style="display:none">
                   <form class="navbar-form">
-                    <a href="{{logout}}" class="btn btn-danger">Log Out</a>
+                    <a class="btn btn-danger">Log Out</a>
                   </form>
                 </li>
-                {% else %}
-                <li>
-                  <form class="navbar-form" id="login-form" action="{{login}}" method="POST">
-                    {% if not register %}
-                    <a href="{{url_for('register_page')}}" class="btn btn-info">Register</a>
-                    {% endif %}
+                <li id="pre_auth_nav_item" style="display:none">
+                  <form class="navbar-form" id="login-form">
+                    <a id="register-nav-button" class="btn btn-info">Register</a>
                     <div class="form-group">
                       <input type="text" id="login-email" name="email" placeholder="Email" class="form-control">
                     </div>
                     <div class="form-group">
                       <input type="password" id="login-password" name="password" placeholder="Password" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-success">Sign in</button>
+                    <button id="sign_in_button" class="btn btn-success">Sign in</button>
                   </form>
                 </li>
-                {% endif %}
               </ul>
 
             </div>
