@@ -58,13 +58,13 @@ def trainer_list():
         trainers = db.getTrainersByStrictNameMatch(trainerName)
     else:
         trainers = db.getAllTrainers()
-    return trainers
+    return make_response(trainers)
 
 #TODO status codes
 @app.route('/pokemon', methods=['GET'])
 def pokemon_list():
     pokemon = getPokemonForPokemonList(request)
-    return pokemon
+    return make_response(pokemon)
 
 #TODO status codes
 #TODO if trainer doesn't exist, send them a msg that the user that they are attempting to view has been deleted

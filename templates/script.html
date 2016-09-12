@@ -31,7 +31,8 @@ function updateAuth(){
     var cookies = getCookies();
     userInfo["id"] = cookies["trainerID"];
     userInfo["name"] = cookies["displayName"];
-    document.getElementById("profile_nav_name").text = userInfo["name"];
+    //TODO make a more proper unescape method?
+    document.getElementById("profile_nav_name").text = unescape(userInfo["name"]);
     trainerID = userInfo["id"];
   }else{
     preAuthNavItem.style.display = "block";
